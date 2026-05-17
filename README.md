@@ -1,6 +1,6 @@
 # Проект Тайм-Трекер
 
-Консольное приложение для учёта рабочего времени на языке C++.
+Консольное приложение для учета рабочего времени на языке C++.
 
 ## Использованные паттерны
 
@@ -24,7 +24,7 @@ pacman -S --needed mingw-w64-ucrt64-toolchain mingw-w64-ucrt64-cmake mingw-w64-u
 
 ## Быстрый старт (Windows, PowerShell)
 
-Все команды ниже — из **корня проекта** (`KR4`), если не указано иное.
+Все команды ниже — из **корня проекта**, если не указано иное.
 
 ```powershell
 # 1. DLL MSYS2 (нужно каждый раз в новом окне PowerShell)
@@ -67,7 +67,7 @@ cmake --build build
 
 Пересобираются только изменённые файлы.
 
-### Переконфигурация (изменили `CMakeLists.txt`)
+### Переконфигурация
 
 ```bash
 cmake -S . -B build
@@ -79,7 +79,7 @@ cmake --build build
 **Вариант 1 — удалить каталог `build/`** (самый простой):
 
 ```powershell
-# PowerShell, из корня KR4
+# PowerShell
 Remove-Item -Recurse -Force build
 cmake -S . -B build
 cmake --build build
@@ -113,7 +113,7 @@ cmake --build build --clean-first
 
 | Файл                              | Назначение                              |
 | --------------------------------- | --------------------------------------- |
-| `target_exec` / `target_exec.exe` | Основное приложение (демо тайм-трекера) |
+| `target_exec` / `target_exec.exe` | Основное приложение (тайм-трекер) |
 | `run_tests` / `run_tests.exe`     | Модульные тесты (Google Test)           |
 
 ### MSYS2 UCRT64 (bash)
@@ -173,17 +173,6 @@ cd build
 
 ---
 
-## Типичные сценарии
-
-| Задача                   | Команды                                                                      |
-| ------------------------ | ---------------------------------------------------------------------------- |
-| Изменил `.cpp` / `.h`    | `cmake --build build` → запуск `target_exec` или `run_tests`                 |
-| Изменил `CMakeLists.txt` | `cmake -S . -B build` → `cmake --build build`                                |
-| Странные ошибки линковки | Удалить `build/`, собрать заново (см. **clean** выше)                        |
-| Проверить перед сдачей   | `cmake --build build` → `cd build` → `.\run_tests.exe` → `.\target_exec.exe` |
-
----
-
 ## Тесты (состав)
 
 В `tests/test_main.cpp` — **36** тестов на Google Test:
@@ -217,18 +206,7 @@ KR4/
 │   └── TrackerManager.cpp
 ├── tests/
 │   └── test_main.cpp
-└── build/              # каталог сборки (создаётся cmake, можно удалять)
+└── build/              # каталог сборки (создается cmake, можно удалять)
     ├── target_exec.exe
     └── run_tests.exe
 ```
-
----
-
-## Устранение неполадок
-
-| Проблема                        | Решение                                                                                                       |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `cmake` не найден               | Открыть **MSYS2 UCRT64**, установить пакеты (см. **Требования**) или добавить `C:\msys64\ucrt64\bin` в `PATH` |
-| `Could NOT find GTest`          | `pacman -S mingw-w64-ucrt64-gtest`, затем `cmake -S . -B build` заново                                        |
-| exe не запускается в PowerShell | `$env:PATH = "C:\msys64\ucrt64\bin;" + $env:PATH`                                                             |
-| Старая сборка мешает            | Удалить папку `build` и собрать с нуля                                                                        |
